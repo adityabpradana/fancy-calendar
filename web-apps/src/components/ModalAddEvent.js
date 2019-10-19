@@ -33,7 +33,10 @@ const ModalAddEvent = () => {
     }
 
     return (
-        <Modal open={open} size="mini" closeIcon trigger={<Button content='Add Event' icon='add' labelPosition='left' onClick={ e => setOpen(true)} fluid/>}>
+        <Modal open={open} size="mini"
+        closeIcon
+        onClose={ () => setOpen(false) }
+        trigger={<Button content='Add Event' icon='add' labelPosition='left' onClick={ e => setOpen(true)} fluid/>}>
             <Modal.Header>
                 Add New Event
             </Modal.Header>

@@ -1,14 +1,15 @@
 import React from 'react';
-import { Modal, Label } from 'semantic-ui-react';
+import { Modal, Button, Header } from 'semantic-ui-react';
 
-const ModalAddEvent = () => {
+const ModalAddEvent = ({ event }) => {
     return (
-        <Modal trigger={<Label>Event</Label>} size="tiny">
+        <Modal trigger={<Button size="tiny" color="blue">{event.name}</Button>} size="tiny">
             <Modal.Header>
-                Add New Event
+                Detail
             </Modal.Header>
             <Modal.Content>
-            <p>Deskripsi Event</p>
+                <Header>{event.name}</Header>
+                <p>{event.desc}</p>
             </Modal.Content>
         </Modal>
     )
