@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { DateInput } from 'semantic-ui-calendar-react';
 import { Modal, Form, Button } from 'semantic-ui-react';
+import db from '../utils/FirestoreConfig';
 
 const ModalAddEvent = () => {
     let date = new Date();
 
+    let [open, setOpen] = useState(false);
     let [eventName, setEventName] = useState('');
     let [eventDesc, setEventDesc] = useState('');
     let [eventDate, setEventDate] = useState(`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`);
@@ -13,13 +15,30 @@ const ModalAddEvent = () => {
         setEventDate(value)
     }
 
+    const addEvent = () => {
+        db.collection("event").add({
+            event: {
+                name: eventName,
+                desc: eventDesc,
+                date: eventDate
+            }
+        })
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+            setOpen(false)
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+    }
+
     return (
-        <Modal size="mini" trigger={<Button content='Add Event' icon='add' labelPosition='left' />}>
+        <Modal open={open} size="mini" closeIcon trigger={<Button content='Add Event' icon='add' labelPosition='left' onClick={ e => setOpen(true)} fluid/>}>
             <Modal.Header>
                 Add New Event
             </Modal.Header>
             <Modal.Content>
-            <Form>
+            <Form onSubmit={addEvent}>
                 <Form.Field>
                     <label>Event Name  {eventName} {String(eventDate)}</label>
                     <input placeholder='Write event name...' onChange={e => setEventName(e.target.value)} value={eventName}/>
@@ -29,7 +48,7 @@ const ModalAddEvent = () => {
                     <input placeholder='Write event description...' onChange={e => setEventDesc(e.target.value)} value={eventDesc}/>
                 </Form.Field>
                 <DateInput value={eventDate} onChange={handleChange}/>
-                <Button type='submit'>Submit</Button>
+                <Form.Button content='Submit'/>
             </Form>
             </Modal.Content>
         </Modal>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, Header, Label } from 'semantic-ui-react';
+import React from 'react';
+import { Modal, Label } from 'semantic-ui-react';
 
 const ModalAddEvent = () => {
     return (

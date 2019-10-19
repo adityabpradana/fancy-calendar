@@ -1,22 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ModalAddEvent from './components/ModalAddEvent';
 import CalendarTable from './components/CalendarTable';
 import { dateArray } from './js/CalendarLogic';
 import './App.css';
+import db from './utils/FirestoreConfig';
 
 function App() {
   const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
+
+  useEffect(() => {
+    db.collection("event")
+    .onSnapshot(function(querySnapshot) {
+        var events = [];
+        querySnapshot.forEach(function(doc) {
+            events.push(doc.data());
+        });
+        console.log(events)
+    });
+  }, [db]);
 
   return (
     <div className="App">
       <div className="flex">
         <div className="sidebar full-height" style={{ flex: 3 }}>
-          <ModalAddEvent/>
+          <div className='flex' style={{ padding: '20px' }}>
+            <ModalAddEvent/>
+          </div>
           <div>
             <h1>March <span>2019</span></h1>
           </div>
           <div>
-            {/* <CalendarTable dateArray={dateArray}/> */}
+
           </div>
         </div>
         <div className="wrapper full-height" style={{ flex: 13 }}>
