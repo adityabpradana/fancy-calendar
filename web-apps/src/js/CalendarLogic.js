@@ -31,7 +31,7 @@ function getDateArray(month = m, year = y){
     return dateArray;
 }
 
-exports = {
+module.exports = {
     dates: getDateArray,
     currentMonth: m,
     currentYear: y,
